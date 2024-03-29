@@ -13,6 +13,8 @@ import {
 } from "react-native";
 import { Quicksand_600SemiBold } from "@expo-google-fonts/quicksand";
 import { useFonts } from "expo-font";
+import ApiService from "../../helpers/ApiService";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -21,14 +23,38 @@ const Login = () => {
   const [fontsLoaded] = useFonts({ Quicksand_600SemiBold });
 
   const handlePhoneChange = (e) => {
-    setPhoneNumber(e.target.value);
+    setPhoneNumber(e);
   };
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+    setPassword(e);
   };
   const handleRegisterPress = () => {
     // Navigate to Register screen
     navigation.navigate("Register");
+  };
+
+  const handleLogin = async () => {
+    if (!phoneNumber) {
+      alert("Phone number is required");
+      return;
+    } else if (!password) {
+      alert("Password is required");
+      return;
+    }
+    // Perform login
+
+    const response = await ApiService.post("/api/auth/login", {
+      phoneNumber,
+      password,
+    });
+
+    if (response.isSuccess) {
+      // Save token to AsyncStorage
+      await AsyncStorage.setItem("token", response.data.token);
+      // Navigate to Home screen
+
+      navigation.navigate("Home");
+    }
   };
 
   return (
@@ -79,7 +105,7 @@ const Login = () => {
               }}
               placeholder="Phone Number"
               value={phoneNumber}
-              onChange={handlePhoneChange}
+              onChangeText={handlePhoneChange}
             />
           </View>
           <View style={{ marginBottom: 16 }}>
@@ -95,11 +121,11 @@ const Login = () => {
               placeholder="Password"
               secureTextEntry
               value={password}
-              onChange={handlePasswordChange}
+              onChangeText={handlePasswordChange}
             />
           </View>
 
-          <TouchableHighlight style={{ borderRadius: 4 }} onPress={() => {}}>
+          <TouchableHighlight style={{ borderRadius: 4 }} onPress={handleLogin}>
             <View
               style={{
                 width: "100%",
