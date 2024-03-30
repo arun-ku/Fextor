@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addCategoryBulk } from "../../redux/slices/expense-categories";
 import ApiService from "../../helpers/ApiService";
 import { addExpenseBulk } from "../../redux/slices/enpenses";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 const ExpensesList = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -57,11 +58,10 @@ const ExpensesList = () => {
                 navigation.goBack();
               }}
             >
-              <Image
-                style={{ height: 24, width: 16 }}
-                source={{
-                  uri: "https://img.icons8.com/?size=160&id=DUXX2N9ctKj4&format=png",
-                }}
+              <MaterialIcons
+                name="arrow-back-ios-new"
+                size={24}
+                color="#ffffff"
               />
             </TouchableWithoutFeedback>
             <Text
@@ -111,9 +111,10 @@ const ExpensesList = () => {
                       <View
                         style={{ flexDirection: "row", alignItems: "center" }}
                       >
-                        <Image
-                          style={{ height: 16, width: 16 }}
-                          source={{ uri: expense.categoryId.categoryIcon }}
+                        <MaterialIcons
+                          name={expense.categoryId.categoryIcon}
+                          size={16}
+                          color={expense.categoryId.iconColor}
                         />
                         <Text
                           style={{

@@ -19,6 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
   const [fontsLoaded] = useFonts({ Quicksand_600SemiBold });
 
@@ -42,18 +43,22 @@ const Login = () => {
       return;
     }
     // Perform login
-
+    setIsLoading(true);
     const response = await ApiService.post("/api/auth/login", {
       phoneNumber,
       password,
     });
-
     if (response.isSuccess) {
       // Save token to AsyncStorage
+      setIsLoading(false);
+
       await AsyncStorage.setItem("token", response.data.token);
       // Navigate to Home screen
 
       navigation.navigate("Home");
+    } else {
+      setIsLoading(false);
+      alert(response.data.message);
     }
   };
 
@@ -125,7 +130,11 @@ const Login = () => {
             />
           </View>
 
-          <TouchableHighlight style={{ borderRadius: 4 }} onPress={handleLogin}>
+          <TouchableHighlight
+            disabled={isLoading}
+            style={{ borderRadius: 4 }}
+            onPress={handleLogin}
+          >
             <View
               style={{
                 width: "100%",
@@ -136,7 +145,7 @@ const Login = () => {
               }}
             >
               <Text style={{ color: "white", fontSize: 16, fontWeight: "700" }}>
-                Login
+                {isLoading ? "Authenticating..." : "Login"}
               </Text>
             </View>
           </TouchableHighlight>

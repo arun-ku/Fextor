@@ -12,6 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { addCategoryBulk } from "../../redux/slices/expense-categories";
 import ApiService from "../../helpers/ApiService";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 const ViewCategories = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -56,11 +57,10 @@ const ViewCategories = () => {
                 navigation.goBack();
               }}
             >
-              <Image
-                style={{ height: 24, width: 16 }}
-                source={{
-                  uri: "https://img.icons8.com/?size=160&id=DUXX2N9ctKj4&format=png",
-                }}
+              <MaterialIcons
+                name="arrow-back-ios-new"
+                size={24}
+                color="#ffffff"
               />
             </TouchableWithoutFeedback>
             <Text
@@ -97,11 +97,10 @@ const ViewCategories = () => {
                     }}
                     key={index}
                   >
-                    <Image
-                      style={{ height: 50, width: 50 }}
-                      source={{
-                        uri: category.categoryIcon,
-                      }}
+                    <MaterialIcons
+                      name={category.categoryIcon}
+                      color={category.iconColor}
+                      size={28}
                     />
                     <Text
                       style={{

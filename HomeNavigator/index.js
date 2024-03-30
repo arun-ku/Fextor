@@ -25,7 +25,10 @@ const HomeNavigator = () => {
         if (response.isSuccess) {
           const { status, phoneNumber, name, families, _id } = response.data;
           dispatch(setUser({ status, phoneNumber, name, families, _id }));
-          AsyncStorage.setItem("family", response.data?.families?.[0]);
+          await AsyncStorage.setItem(
+            "family",
+            response.data?.families?.[0] || ""
+          );
           dispatch(setIsLoading(false));
         } else {
           await AsyncStorage.setItem("token", "");

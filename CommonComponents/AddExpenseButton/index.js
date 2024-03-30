@@ -1,3 +1,4 @@
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/core";
 import { Image, Text, TouchableHighlight, View } from "react-native";
 
@@ -20,12 +21,7 @@ const AddExpenseButton = () => {
           alignItems: "center",
         }}
       >
-        <Image
-          source={{
-            uri: "https://img.icons8.com/?size=128&id=abkCr2ie02rY&format=png",
-          }}
-          style={{ height: 44, width: 44 }}
-        />
+        <MaterialIcons name="add" size={32} color="#ffffff" />
       </View>
     </TouchableHighlight>
   );

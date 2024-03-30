@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import SelectDropdown from "react-native-select-dropdown";
 import ApiService from "../../helpers/ApiService";
 import { addCategoryBulk } from "../../redux/slices/expense-categories";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 const AddExpense = () => {
   const [amount, setAmount] = useState("");
@@ -104,11 +105,10 @@ const AddExpense = () => {
                 navigation.goBack();
               }}
             >
-              <Image
-                style={{ height: 24, width: 16 }}
-                source={{
-                  uri: "https://img.icons8.com/?size=160&id=DUXX2N9ctKj4&format=png",
-                }}
+              <MaterialIcons
+                name="arrow-back-ios-new"
+                size={24}
+                color="#ffffff"
               />
             </TouchableWithoutFeedback>
             <Text
@@ -131,19 +131,19 @@ const AddExpense = () => {
           behavior={Platform.OS === "ios" ? "padding" : null}
         >
           <TextInput
-            placeholder="Category Amount"
+            placeholder="Amount"
             style={styles.textInputs}
             value={amount}
             onChangeText={handleAmountChange}
           />
           <TextInput
-            placeholder="Category Title"
+            placeholder="Title"
             style={styles.textInputs}
             value={title}
             onChangeText={setTitle}
           />
           <TextInput
-            placeholder="Category Description"
+            placeholder="Description"
             style={styles.textInputs}
             value={description}
             onChangeText={setDescription}
@@ -161,9 +161,10 @@ const AddExpense = () => {
                 return (
                   <View style={styles.dropdownButtonStyle}>
                     {selectedItem && (
-                      <Image
-                        style={{ height: 32, width: 32 }}
-                        source={{ uri: selectedItem.categoryIcon }}
+                      <MaterialIcons
+                        name={selectedItem.categoryIcon}
+                        color={selectedItem.iconColor}
+                        size={24}
                       />
                     )}
                     <Text style={styles.dropdownButtonTxtStyle}>
@@ -182,9 +183,10 @@ const AddExpense = () => {
                       ...(isSelected && { backgroundColor: "#D2D9DF" }),
                     }}
                   >
-                    <Image
-                      style={{ width: 32, height: 32 }}
-                      source={{ uri: item.categoryIcon }}
+                    <MaterialIcons
+                      name={item.categoryIcon}
+                      color={item.iconColor}
+                      size={24}
                     />
                     <Text style={styles.dropdownItemTxtStyle}>
                       {item.categoryName}
@@ -243,6 +245,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "500",
     color: "#151E26",
+    marginLeft: 8,
   },
   dropdownButtonArrowStyle: {
     fontSize: 28,
@@ -268,6 +271,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "500",
     color: "#151E26",
+    marginLeft: 8,
   },
   dropdownItemIconStyle: {
     fontSize: 28,

@@ -10,71 +10,105 @@ import {
 } from "react-native";
 import AddExpenseButton from "../../CommonComponents/AddExpenseButton";
 import { useNavigation } from "@react-navigation/core";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 const DASHBOARD_ITEMS = [
   {
     title: "Add Expense",
-    icon: "https://img.icons8.com/?size=128&id=abkCr2ie02rY&format=png",
-    onPress: () => {
+    icon: "format-list-bulleted-add",
+    onPress: (navigation) => {
       // Navigate to AddExpenseCategory screen
+      navigation.navigate("AddExpense");
     },
   },
   {
     title: "View Expenses",
-    icon: "https://img.icons8.com/?size=96&id=20444&format=png",
+    icon: "format-list-bulleted",
     onPress: (navigation) => {
       navigation.navigate("ExpensesList");
     },
   },
   {
     title: "Add New Member",
-    icon: "https://img.icons8.com/?size=100&id=NFY7OZ72blVL&format=png",
+    icon: "person-add-alt",
     onPress: () => {
       // Navigate to AddFamilyMember screen
     },
   },
   {
     title: "Add Family",
-    icon: "https://img.icons8.com/?size=80&id=44535&format=png",
+    icon: "group-add",
     onPress: () => {
       // Navigate to AddFamily screen
     },
   },
   {
     title: "Add Category",
-    icon: "https://img.icons8.com/?size=100&id=KSazDyF1xvcs&format=png",
+    icon: "playlist-add",
     onPress: (navigattion) => {
       navigattion.navigate("AddExpenseCategory");
     },
   },
   {
     title: "View Categories",
-    icon: "https://img.icons8.com/?size=100&id=d732EC7UltbL&format=png",
+    icon: "list-alt",
     onPress: (navigattion) => {
       navigattion.navigate("ViewCategories");
     },
   },
 ];
 
+// AsyncStorage.setItem("token", "");
+
 const DashBoard = () => {
   const navigation = useNavigation();
 
+  const handleLogout = async () => {
+    await AsyncStorage.setItem("token", "");
+    navigation.navigate("Auth");
+  };
   return (
     <View style={{ flex: 1 }}>
       <StatusBar barStyle="light-content" />
       <View style={{ backgroundColor: "#3498db" }}>
         <SafeAreaView>
-          <Text
+          <View
             style={{
-              fontSize: 24,
-              marginTop: 12,
-              color: "#ffffff",
+              justifyContent: "space-between",
+              flexDirection: "row",
+              alignItems: "center",
               padding: 8,
-              fontWeight: "700",
+              paddingHorizontal: 16,
             }}
           >
-            Dashboard
-          </Text>
+            <Text
+              style={{
+                fontSize: 24,
+                marginTop: 12,
+                color: "#ffffff",
+                fontWeight: "700",
+              }}
+            >
+              Dashboard
+            </Text>
+            <TouchableHighlight onPress={handleLogout}>
+              <View
+                style={{
+                  padding: 8,
+                  paddingVertical: 4,
+                  borderWidth: 1,
+                  borderColor: "#ffffff",
+                }}
+              >
+                <Text
+                  style={{ fontSize: 16, color: "#ffffff", fontWeight: "600" }}
+                >
+                  Logout
+                </Text>
+              </View>
+            </TouchableHighlight>
+          </View>
         </SafeAreaView>
       </View>
       <SafeAreaView style={{ flex: 1 }}>
@@ -107,9 +141,10 @@ const DashBoard = () => {
                         paddingVertical: 16,
                       }}
                     >
-                      <Image
-                        style={{ height: 50, width: 50 }}
-                        source={{ uri: item.icon }}
+                      <MaterialIcons
+                        name={item.icon}
+                        size={50}
+                        color="#3498db"
                       />
                       <Text
                         style={{
