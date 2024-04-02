@@ -17,6 +17,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import ApiService from "../../helpers/ApiService";
 import { addCategoryBulk } from "../../redux/slices/expense-categories";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { addExpense, updateTotalExpenses } from "../../redux/slices/enpenses";
 
 const AddExpense = () => {
   const [amount, setAmount] = useState("");
@@ -29,6 +30,7 @@ const AddExpense = () => {
   const dispatch = useDispatch();
 
   const categories = useSelector((state) => state.expenseCategories.categories);
+  const totalExpenses = useSelector((state) => state.expenses.totalExpenses);
 
   const getCategories = useCallback(async () => {
     if (!categories.length) {
@@ -82,6 +84,8 @@ const AddExpense = () => {
 
       if (response.isSuccess) {
         setAddExpenseIsLoading(false);
+        dispatch(addExpense(response.data));
+        dispatch(updateTotalExpenses(response.data.amount + totalExpenses));
         navigation.goBack();
       } else {
         setAddExpenseIsLoading(false);

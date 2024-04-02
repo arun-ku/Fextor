@@ -12,8 +12,13 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { addCategoryBulk } from "../../redux/slices/expense-categories";
 import ApiService from "../../helpers/ApiService";
-import { addExpenseBulk } from "../../redux/slices/enpenses";
+import {
+  addExpenseBulk,
+  updateTotalExpenses,
+} from "../../redux/slices/enpenses";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { format } from "date-fns";
+import ExpenseCard from "./ExpenseCard";
 
 const ExpensesList = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +31,8 @@ const ExpensesList = () => {
       const response = await ApiService.get("/api/expense/list");
 
       if (response.isSuccess) {
-        dispatch(addExpenseBulk(response.data));
+        dispatch(addExpenseBulk(response.data?.expenses || []));
+        dispatch(updateTotalExpenses(response.data?.totalAmount || []));
         setIsLoading(false);
       } else {
         setIsLoading(false);
@@ -45,36 +51,61 @@ const ExpensesList = () => {
   }, []);
 
   const expenses = useSelector((state) => state.expenses.expenses);
+  const totalExpenses = useSelector((state) => state.expenses.totalExpenses);
 
   return (
     <View style={{ flex: 1 }}>
       <View style={{ backgroundColor: "#3498db" }}>
         <SafeAreaView>
           <View
-            style={{ flexDirection: "row", alignItems: "center", padding: 8 }}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              padding: 8,
+              justifyContent: "space-between",
+            }}
           >
-            <TouchableWithoutFeedback
-              onPress={() => {
-                navigation.goBack();
-              }}
-            >
-              <MaterialIcons
-                name="arrow-back-ios-new"
-                size={24}
-                color="#ffffff"
-              />
-            </TouchableWithoutFeedback>
-            <Text
+            <View
               style={{
-                fontSize: 24,
-                color: "#ffffff",
-                padding: 8,
-                fontWeight: "700",
-                flex: 1,
+                flexDirection: "row",
+                alignItems: "center",
+                width: "50%",
               }}
             >
-              Expenses
-            </Text>
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  navigation.goBack();
+                }}
+              >
+                <MaterialIcons
+                  name="arrow-back-ios-new"
+                  size={24}
+                  color="#ffffff"
+                />
+              </TouchableWithoutFeedback>
+              <Text
+                style={{
+                  fontSize: 24,
+                  color: "#ffffff",
+                  padding: 8,
+                  fontWeight: "700",
+                  flex: 1,
+                }}
+              >
+                Expenses
+              </Text>
+            </View>
+            <View style={{ paddingRight: 8 }}>
+              <Text
+                style={{ fontSize: 24, fontWeight: "600", color: "#ffffff" }}
+              >
+                ₹
+                {new Intl.NumberFormat().format(totalExpenses, {
+                  style: "currency",
+                  currency: "INR",
+                })}
+              </Text>
+            </View>
           </View>
         </SafeAreaView>
       </View>
@@ -85,73 +116,7 @@ const ExpensesList = () => {
           ) : (
             <ScrollView style={{ flex: 1, paddingVertical: 12 }}>
               {expenses?.map((expense, index) => {
-                return (
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      padding: 16,
-                      backgroundColor: "#ffffff",
-                      margin: 8,
-                      marginBottom: 0,
-                      borderRadius: 4,
-                    }}
-                    key={index}
-                  >
-                    <View style={{ flex: 1 }}>
-                      <Text
-                        style={{
-                          fontSize: 24,
-                          color: "#000000",
-                          fontWeight: "600",
-                        }}
-                      >
-                        {expense.title}
-                      </Text>
-                      <View
-                        style={{ flexDirection: "row", alignItems: "center" }}
-                      >
-                        <MaterialIcons
-                          name={expense.categoryId.categoryIcon}
-                          size={16}
-                          color={expense.categoryId.iconColor}
-                        />
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            marginLeft: 4,
-                            color: "#000000",
-                            fontWeight: "600",
-                          }}
-                        >
-                          {expense.categoryId.categoryName}
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ alignItems: "flex-end" }}>
-                      <Text
-                        style={{
-                          fontSize: 24,
-                          marginLeft: 16,
-                          color: "#f39c12",
-                          fontWeight: "600",
-                        }}
-                      >
-                        ₹{expense.amount}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 16,
-                          marginLeft: 16,
-                          color: "#000000",
-                          fontWeight: "600",
-                        }}
-                      >
-                        {expense.userId.name}
-                      </Text>
-                    </View>
-                  </View>
-                );
+                return <ExpenseCard expense={expense} key={index} />;
               })}
             </ScrollView>
           )}
