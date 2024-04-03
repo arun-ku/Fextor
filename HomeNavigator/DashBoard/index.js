@@ -70,7 +70,6 @@ const DashBoard = () => {
   };
   return (
     <View style={{ flex: 1 }}>
-      <StatusBar barStyle="light-content" />
       <View style={{ backgroundColor: "#3498db" }}>
         <SafeAreaView>
           <View

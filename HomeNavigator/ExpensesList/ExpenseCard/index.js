@@ -9,11 +9,13 @@ import {
   deleteExpense,
   updateTotalExpenses,
 } from "../../../redux/slices/enpenses";
+import { useNavigation } from "@react-navigation/native";
 
 const ExpenseCard = ({ expense }) => {
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const totalExpenses = useSelector((state) => state.expenses.totalExpenses);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const showConfirmation = () => {
     setConfirmationVisible(true);
@@ -149,9 +151,21 @@ const ExpenseCard = ({ expense }) => {
           </View>
           <View style={{ alignItems: "flex-end" }}>
             {user._id === expense.userId._id && (
-              <TouchableHighlight onPress={showConfirmation}>
-                <MaterialIcons name="delete" size={24} color="#7f8c8d" />
-              </TouchableHighlight>
+              <View style={{ flexDirection: "row" }}>
+                <TouchableHighlight
+                  onPress={() => {
+                    navigation.navigate("EditExpense", {
+                      expenseId: expense._id,
+                    });
+                  }}
+                  style={{ marginRight: 8 }}
+                >
+                  <MaterialIcons name="edit" size={24} color="#7f8c8d" />
+                </TouchableHighlight>
+                <TouchableHighlight onPress={showConfirmation}>
+                  <MaterialIcons name="delete" size={24} color="#7f8c8d" />
+                </TouchableHighlight>
+              </View>
             )}
             <Text
               style={{

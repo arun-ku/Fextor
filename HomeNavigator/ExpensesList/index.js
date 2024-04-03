@@ -10,14 +10,12 @@ import {
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { addCategoryBulk } from "../../redux/slices/expense-categories";
 import ApiService from "../../helpers/ApiService";
 import {
   addExpenseBulk,
   updateTotalExpenses,
 } from "../../redux/slices/enpenses";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { format } from "date-fns";
 import ExpenseCard from "./ExpenseCard";
 
 const ExpensesList = () => {
@@ -114,7 +112,10 @@ const ExpensesList = () => {
           {isLoading ? (
             <Text>Loading...</Text>
           ) : (
-            <ScrollView style={{ flex: 1, paddingVertical: 12 }}>
+            <ScrollView
+              style={{ flex: 1 }}
+              contentContainerStyle={{ paddingTop: 8, paddingBottom: 24 }}
+            >
               {expenses?.map((expense, index) => {
                 return <ExpenseCard expense={expense} key={index} />;
               })}

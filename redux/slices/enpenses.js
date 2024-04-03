@@ -12,6 +12,14 @@ const expensesSlice = createSlice({
     addExpense: (state, action) => {
       state.expenses.unshift(action.payload);
     },
+    editExpense: (state, action) => {
+      state.expenses = state.expenses.map((expense) => {
+        if (expense._id === action.payload._id) {
+          return action.payload;
+        }
+        return expense;
+      });
+    },
     addExpenseBulk: (state, action) => {
       state.expenses = action.payload;
     },
@@ -31,6 +39,7 @@ export const {
   addExpenseBulk,
   updateTotalExpenses,
   deleteExpense,
+  editExpense,
 } = expensesSlice.actions;
 
 export default expensesSlice.reducer;

@@ -5,11 +5,18 @@ import ApiService from "../helpers/ApiService";
 import { setIsLoading, setMetadata, setUser } from "../redux/slices/user";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SafeAreaView, Text, TouchableHighlight, View } from "react-native";
+import {
+  SafeAreaView,
+  StatusBar,
+  Text,
+  TouchableHighlight,
+  View,
+} from "react-native";
 import AddExpenseCategory from "./AddExpenseCategory";
 import ViewCategories from "./ViewCategories";
 import AddExpense from "./AddExpense";
 import ExpensesList from "./ExpensesList";
+import EditExpense from "./EditExpense";
 
 const Stack = createNativeStackNavigator();
 
@@ -49,16 +56,24 @@ const HomeNavigator = () => {
   }, [getUserData]);
 
   return (
-    <Stack.Navigator
-      initialRouteName="DashBoard"
-      screenOptions={{ header: () => null }}
-    >
-      <Stack.Screen name="DashBoard" component={DashBoard} />
-      <Stack.Screen name="AddExpenseCategory" component={AddExpenseCategory} />
-      <Stack.Screen name="ViewCategories" component={ViewCategories} />
-      <Stack.Screen name="AddExpense" component={AddExpense} />
-      <Stack.Screen name="ExpensesList" component={ExpensesList} />
-    </Stack.Navigator>
+    <>
+      <Stack.Navigator
+        initialRouteName="DashBoard"
+        screenOptions={{ header: () => null }}
+      >
+        <Stack.Screen name="DashBoard" component={DashBoard} />
+        <Stack.Screen
+          name="AddExpenseCategory"
+          component={AddExpenseCategory}
+        />
+        <Stack.Screen name="ViewCategories" component={ViewCategories} />
+        <Stack.Screen name="AddExpense" component={AddExpense} />
+        <Stack.Screen name="EditExpense" component={EditExpense} />
+        <Stack.Screen name="ExpensesList" component={ExpensesList} />
+      </Stack.Navigator>
+
+      <StatusBar barStyle="light-content" backgroundColor="#3498db" />
+    </>
   );
 };
 
