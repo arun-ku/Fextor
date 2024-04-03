@@ -1,5 +1,6 @@
 import { useEffect, useCallback, useState } from "react";
 import { useNavigation } from "@react-navigation/core";
+import { useRoute } from "@react-navigation/core";
 import {
   Image,
   SafeAreaView,
@@ -22,13 +23,25 @@ const ExpensesList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { params } = useRoute();
 
   const getExpenses = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await ApiService.get("/api/expense/list");
+      let response = null;
+      if (params?.user) {
+        response = await ApiService.get(
+          `/api/expense/listByUser/${params.user._id}`
+        );
+      } else if (params?.category) {
+        response = await ApiService.get(
+          `/api/expense/listByCategory/${params.category._id}`
+        );
+      } else {
+        response = await ApiService.get("/api/expense/list");
+      }
 
-      if (response.isSuccess) {
+      if (response?.isSuccess) {
         dispatch(addExpenseBulk(response.data?.expenses || []));
         dispatch(updateTotalExpenses(response.data?.totalAmount || []));
         setIsLoading(false);
@@ -38,11 +51,12 @@ const ExpensesList = () => {
         navigation.goBack();
       }
     } catch (error) {
+      console.log(error);
       setIsLoading(false);
       alert("Failed to fetch expenses");
       navigation.goBack();
     }
-  }, []);
+  }, [params?.user, params?.category]);
 
   useEffect(() => {
     getExpenses();

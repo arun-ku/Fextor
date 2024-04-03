@@ -57,6 +57,13 @@ const DASHBOARD_ITEMS = [
       navigattion.navigate("ViewCategories");
     },
   },
+  {
+    title: "Analytics",
+    icon: "analytics",
+    onPress: (navigattion) => {
+      navigattion.navigate("Analytics");
+    },
+  },
 ];
 
 // AsyncStorage.setItem("token", "");
