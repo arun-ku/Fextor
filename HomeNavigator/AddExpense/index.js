@@ -157,6 +157,8 @@ const AddExpense = () => {
 
           {!isLoading && (
             <SelectDropdown
+              search
+              searchPlaceHolderColor="Search Category"
               data={categories}
               onSelect={(selectedItem) => {
                 setCategory(selectedItem._id);
