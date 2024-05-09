@@ -1,9 +1,6 @@
-import { useEffect } from "react";
 import {
-  Image,
   SafeAreaView,
   ScrollView,
-  StatusBar,
   Text,
   TouchableHighlight,
   View,
@@ -34,6 +31,13 @@ const DASHBOARD_ITEMS = [
     icon: "person-add-alt",
     onPress: () => {
       // Navigate to AddFamilyMember screen
+    },
+  },
+  {
+    title: "Join Requests",
+    icon: "person-add-alt",
+    onPress: (navigation) => {
+      navigation.navigate("Requests");
     },
   },
   {
@@ -73,7 +77,7 @@ const DashBoard = () => {
 
   const handleLogout = async () => {
     await AsyncStorage.setItem("token", "");
-    navigation.navigate("Auth");
+    navigation.replace("Auth");
   };
   return (
     <View style={{ flex: 1 }}>

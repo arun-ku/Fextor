@@ -13,7 +13,7 @@ const AuthNavigator = () => {
     const token = await AsyncStorage.getItem("token");
 
     if (token) {
-      navigation.navigate("Home");
+      navigation.replace("Home");
     }
   }, []);
 

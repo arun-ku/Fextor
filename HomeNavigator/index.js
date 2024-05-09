@@ -18,6 +18,7 @@ import AddExpense from "./AddExpense";
 import ExpensesList from "./ExpensesList";
 import EditExpense from "./EditExpense";
 import Analytics from "./Analytics";
+import Requests from "./Requests";
 
 const Stack = createNativeStackNavigator();
 
@@ -72,6 +73,7 @@ const HomeNavigator = () => {
         <Stack.Screen name="EditExpense" component={EditExpense} />
         <Stack.Screen name="ExpensesList" component={ExpensesList} />
         <Stack.Screen name="Analytics" component={Analytics} />
+        <Stack.Screen name="Requests" component={Requests} />
       </Stack.Navigator>
 
       <StatusBar barStyle="light-content" backgroundColor="#3498db" />
