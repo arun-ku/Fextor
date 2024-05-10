@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import "react-native-reanimated";
 import AuthNavigator from "./AuthNavigator";
 import HomeNavigator from "./HomeNavigator";
 import { Provider } from "react-redux";
