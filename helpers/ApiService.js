@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const BASE_URL = "https://et-be.cyclic.app";
+const BASE_URL = "https://et-be.vercel.app";
 // const BASE_URL = "http://192.168.9.230:3000";
 
 class ApiService {
