@@ -9,6 +9,7 @@ import AddExpenseButton from "../../CommonComponents/AddExpenseButton";
 import { useNavigation } from "@react-navigation/core";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import SetDateModal from "../../CommonComponents/SetDateModal";
 
 const DASHBOARD_ITEMS = [
   {
@@ -102,22 +103,29 @@ const DashBoard = () => {
             >
               Dashboard
             </Text>
-            <TouchableHighlight onPress={handleLogout}>
-              <View
-                style={{
-                  padding: 8,
-                  paddingVertical: 4,
-                  borderWidth: 1,
-                  borderColor: "#ffffff",
-                }}
-              >
-                <Text
-                  style={{ fontSize: 16, color: "#ffffff", fontWeight: "600" }}
+            <View style={{ flexDirection: "row", alignItems: "center", top: 4 }}>
+              <SetDateModal />
+              <TouchableHighlight onPress={handleLogout}>
+                <View
+                  style={{
+                    padding: 8,
+                    paddingVertical: 4,
+                    borderWidth: 1,
+                    borderColor: "#ffffff",
+                  }}
                 >
-                  Logout
-                </Text>
-              </View>
-            </TouchableHighlight>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: "#ffffff",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Logout
+                  </Text>
+                </View>
+              </TouchableHighlight>
+            </View>
           </View>
         </SafeAreaView>
       </View>

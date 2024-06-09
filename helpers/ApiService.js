@@ -1,15 +1,25 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const BASE_URL = "https://et-be.vercel.app";
-// const BASE_URL = "http://192.168.9.230:3000";
+// const BASE_URL = "http://192.168.1.8:3000";
 
 class ApiService {
   getHeaders = async () => {
-    return {
+    const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${await AsyncStorage.getItem("token")}`,
       family: await AsyncStorage.getItem("family"),
+      year: await AsyncStorage.getItem("currentYear"),
+      month: await AsyncStorage.getItem("currentMonth"),
     };
+
+    if (!headers.month) {
+      headers.month = new Date().getMonth();
+    }
+    if (!headers.year) {
+      headers.year = new Date().getFullYear();
+    }
+    return headers;
   };
   get = async (url) => {
     const response = await fetch(`${BASE_URL}${url}`, {
